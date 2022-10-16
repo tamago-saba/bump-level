@@ -6,5 +6,6 @@ export const getConfig = () => {
     return {
         token: process.env.TOKEN,
         disboardId: process.env.DISBOARD_ID || "302050872383242240",
+        debug: process.env.DEBUG,
     };
 };

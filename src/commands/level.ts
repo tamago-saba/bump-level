@@ -7,8 +7,7 @@ export const sendLevel = async (
     interaction: ChatInputCommandInteraction
 ) => {
     const data = await storage.getLevelData(interaction.user.id);
-    const profileEmbed = new ProfileEmbed();
-    const embed = profileEmbed.getEmbed(data, interaction.user);
+    const profileEmbed = new ProfileEmbed(data, interaction.user);
 
-    interaction.reply({ embeds: [embed] });
+    interaction.reply({ embeds: [profileEmbed.embed] });
 };

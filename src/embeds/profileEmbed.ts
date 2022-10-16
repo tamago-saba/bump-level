@@ -1,13 +1,14 @@
-import { EmbedBuilder, User } from "discord.js";
+import { User } from "discord.js";
 import { LevelData } from "../models/userData";
 import { LevelEmbed } from "./levelEmbed";
 
 export class ProfileEmbed extends LevelEmbed {
-    constructor() {
+    constructor(data: LevelData, user: User) {
         super();
+        this.setEmbed(data, user);
     }
 
-    getEmbed(data: LevelData, user: User): EmbedBuilder {
+    setEmbed(data: LevelData, user: User) {
         if (
             data.count == undefined ||
             data.ap == undefined ||
@@ -38,6 +39,5 @@ export class ProfileEmbed extends LevelEmbed {
                     }
                 );
         }
-        return this.embed;
     }
 }

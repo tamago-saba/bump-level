@@ -7,8 +7,7 @@ export async function sendTop(
     interaction: ChatInputCommandInteraction
 ) {
     const top = (await storage.getTop()).slice(0, 10);
-    const topEmbed = new TopEmbed();
-    const embed = topEmbed.getEmbed(top, interaction.guild);
+    const topEmbed = new TopEmbed(top, interaction.guild);
 
-    interaction.reply({ embeds: [embed] });
+    interaction.reply({ embeds: [topEmbed.embed] });
 }

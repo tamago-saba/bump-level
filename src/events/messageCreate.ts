@@ -3,11 +3,57 @@ import { Storage } from "../storage";
 import { BumpTracker } from "../utils/bumpTracker";
 import { isBumpMessage } from "../utils/disboard";
 import { getBonusExp } from "../utils/calculator";
+import { ExpUpEmbed } from "../embeds/expUpEmbed";
+import { waitForEmbed } from "../utils/waitForEmbed";
 
-const basePoint = 20;
-const bumperRoleName = "Active Bumper";
+export const onMessageCreate = async (
+    storage: Storage,
+    message: Message,
+    client: Client,
+    bumpTracker: BumpTracker
+) => {
+    if (message.author === client.user) {
+        return;
+    }
+
+    await waitForEmbed(message);
+
+    if (!isBumpMessage(message)) {
+        return;
+    }
+
+    const interactorId = message.interaction?.user.id;
+    if (!interactorId) return;
+
+    const offset = 7200000;
+    const bonus =
+        bumpTracker.lastBump !== undefined
+            ? getBonusExp(Date.now() - bumpTracker.lastBump - offset)
+            : 0;
+    const givenExp = 10 + bonus;
+
+    await storage.updateLevelData(interactorId, givenExp.toString());
+
+    const newExp = (await storage.getLevelData(interactorId)).exp;
+    const oldExp = newExp - givenExp;
+    const expUpEmbed = new ExpUpEmbed(
+        oldExp.toString(),
+        newExp.toString(),
+        bonus.toString()
+    );
+    message.channel.send({ embeds: [expUpEmbed.embed] });
+
+    if (message.guild !== null) {
+        updateRoles(storage, message.guild);
+    }
+
+    bumpTracker.recordBump();
+};
 
 const updateRoles = async (storage: Storage, guild: Guild) => {
+    const basePoint = 20;
+    const bumperRoleName = "Active Bumper";
+
     storage.getAllLevelData().then((allData) =>
         allData.forEach(async (data) => {
             const member = guild.members.cache.get(data.id);
@@ -37,49 +83,4 @@ const updateRoles = async (storage: Storage, guild: Guild) => {
             }
         })
     );
-};
-
-export const onMessageCreate = async (
-    storage: Storage,
-    message: Message,
-    client: Client,
-    bumpTracker: BumpTracker
-) => {
-    if (message.author === client.user) {
-        return;
-    }
-
-    const isEmpty = () =>
-        message.content === "" &&
-        message.embeds.length === 0 &&
-        message.attachments.size === 0;
-
-    let timeout = false;
-    setTimeout(() => {
-        timeout = true;
-    }, 1000);
-
-    while (isEmpty() && !timeout) {
-        await new Promise((r) => setTimeout(r, 10));
-    }
-
-    if (isBumpMessage(message)) {
-        const interactorId = message.interaction?.user.id;
-        if (!interactorId) return;
-
-        const bonus =
-            bumpTracker.lastBump !== undefined
-                ? getBonusExp(Date.now() - bumpTracker.lastBump - 7200000)
-                : 0;
-
-        await storage.updateLevelData(interactorId, (10 + bonus).toString());
-
-        if (message.guild !== null) {
-            updateRoles(storage, message.guild);
-        }
-
-        bumpTracker.recordBump();
-
-        return;
-    }
 };

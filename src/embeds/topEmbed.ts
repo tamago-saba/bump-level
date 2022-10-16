@@ -1,13 +1,14 @@
-import { EmbedBuilder, Guild } from "discord.js";
+import { Guild } from "discord.js";
 import { LevelData } from "../models/userData";
 import { LevelEmbed } from "./levelEmbed";
 
 export class TopEmbed extends LevelEmbed {
-    constructor() {
+    constructor(topData: LevelData[], guild: Guild | null) {
         super();
+        this.setEmbed(topData, guild);
     }
 
-    getEmbed(topData: LevelData[], guild: Guild | null): EmbedBuilder {
+    setEmbed(topData: LevelData[], guild: Guild | null) {
         if (topData.length === 0) {
             this.embed.setDescription("まだ誰もBUMPしていません...");
         } else {
@@ -27,6 +28,5 @@ export class TopEmbed extends LevelEmbed {
                         .join("\n")}`
                 );
         }
-        return this.embed;
     }
 }
