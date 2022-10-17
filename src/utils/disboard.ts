@@ -1,12 +1,12 @@
 import { Message } from "discord.js";
-import { getConfig } from "../config";
+import { Bot } from "../bot";
 
-export const isBumpMessage = (message: Message): boolean => {
-    if (getConfig().debug !== undefined) {
-        return message.author.id === getConfig().disboardId;
+export const isBumpMessage = (bot: Bot, message: Message): boolean => {
+    if (bot.config.isDebug) {
+        return message.author.id === bot.config.disboardId;
     }
     return (
-        (message.author.id === getConfig().disboardId &&
+        (message.author.id === bot.config.disboardId &&
             message.embeds
                 .find(() => true)
                 ?.description?.startsWith("表示順をアップしたよ")) ||

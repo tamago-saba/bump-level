@@ -1,13 +1,13 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { Storage } from "../storage";
-import { ProfileEmbed } from "../embeds/profileEmbed";
+import { getProfileEmbed } from "../embeds";
 
 export const sendLevel = async (
     storage: Storage,
     interaction: ChatInputCommandInteraction
 ) => {
     const data = await storage.getLevelData(interaction.user.id);
-    const profileEmbed = new ProfileEmbed(data, interaction.user);
+    const profileEmbed = getProfileEmbed(data, interaction.user);
 
-    interaction.reply({ embeds: [profileEmbed.embed] });
+    interaction.reply({ embeds: [profileEmbed] });
 };

@@ -1,19 +1,19 @@
 import { CacheType, Interaction } from "discord.js";
-import { Storage } from "../storage";
+import { Bot } from "../bot";
 import { sendLevel } from "./level";
 import { sendTop } from "./top";
 
 export const execCommand = async (
-    storage: Storage,
+    bot: Bot,
     interaction: Interaction<CacheType>
 ) => {
     if (!interaction.isChatInputCommand()) return;
 
     switch (interaction.commandName) {
         case "level":
-            sendLevel(storage, interaction);
+            sendLevel(bot.storage, interaction);
             break;
         case "top":
-            sendTop(storage, interaction);
+            sendTop(bot.storage, interaction);
     }
 };
