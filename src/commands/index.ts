@@ -2,6 +2,7 @@ import { CacheType, Interaction } from "discord.js";
 import { Bot } from "../bot";
 import { sendLevel } from "./level";
 import { sendTop } from "./top";
+import { sendAbout } from "./about";
 
 export const execCommand = async (
     bot: Bot,
@@ -15,5 +16,8 @@ export const execCommand = async (
             break;
         case "top":
             await sendTop(bot.storage, interaction);
+            break;
+        case "about":
+            await sendAbout(interaction);
     }
 };

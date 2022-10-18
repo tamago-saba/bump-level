@@ -72,3 +72,20 @@ export const getExpUpEmbed = (
         .setColor(Colors.Aqua)
         .setDescription(`EXP: ${oldExp} ➜ ${newExp} (ボーナス: ${bonus})`);
 };
+
+export const getAboutEmbed = (): EmbedBuilder => {
+    return new EmbedBuilder()
+        .setColor(Colors.Aqua)
+        .setTitle("About")
+        .setDescription(
+            `
+            [DISBOARD](https://diboard.org)の</bump:947088344167366698>コマンドの実行でEXPやロールを付与するBOTです。
+            - [BOTの仕様](https://www.tamago-saba.com/2022/09/24/bump-level.html)
+            - [ソースコード](https://github.com/tamago-saba/bump-level)
+            `.replace(/\n\s+/g, "\n")
+        )
+        .setFooter({
+            text: "Developed by tamago-saba",
+            iconURL: "https://avatars.githubusercontent.com/u/105355605",
+        });
+};

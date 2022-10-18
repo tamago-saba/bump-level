@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const clientId = process.env.CLIENT_ID;
+const applicationId = process.env.APPLICATION_ID;
 const guildId = process.env.GUILD_ID;
 const token = process.env.TOKEN;
 
@@ -14,11 +14,16 @@ const commands = [
     new SlashCommandBuilder()
         .setName("top")
         .setDescription("ランキングを表示します"),
+    new SlashCommandBuilder()
+        .setName("about")
+        .setDescription("BOTの情報を表示します"),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "10" }).setToken(token);
 
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+rest.put(Routes.applicationGuildCommands(applicationId, guildId), {
+    body: commands,
+})
     .then((data) =>
         console.log(
             `Successfully registered ${data.length} application commands.`
