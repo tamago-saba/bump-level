@@ -9,5 +9,5 @@ export const sendLevel = async (
     const data = await storage.getLevelData(interaction.user.id);
     const profileEmbed = getProfileEmbed(data, interaction.user);
 
-    interaction.reply({ embeds: [profileEmbed] });
+    await interaction.reply({ embeds: [profileEmbed] });
 };

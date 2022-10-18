@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as sqlite3 from "sqlite3";
 import { homedir } from "os";
 import { existsSync, mkdirSync, writeFileSync } from "fs";

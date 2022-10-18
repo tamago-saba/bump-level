@@ -19,7 +19,7 @@ export class Storage {
         return this.database.getAll("SELECT * FROM level ORDER BY exp DESC");
     }
 
-    async updateLevelData(id: string, exp: string): Promise<void> {
+    async updateLevelData(id: string, exp: string) {
         await this.database.run(
             "INSERT OR IGNORE INTO level (id, count, ap, exp) VALUES (?, ?, ?, ?)",
             [id, "0", "0", "0"]
@@ -28,7 +28,7 @@ export class Storage {
             "UPDATE level SET ap = ap - 1 WHERE id != ? AND ap > 0",
             [id]
         );
-        return await this.database.run(
+        await this.database.run(
             "UPDATE level SET count = count + 1, ap = ap + 4, exp = exp + ? WHERE id = ?",
             [exp, id]
         );

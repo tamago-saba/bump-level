@@ -26,10 +26,10 @@ export const onMessageCreate = async (bot: Bot, message: Message) => {
         newExp.toString(),
         reward.bonus.toString()
     );
-    message.channel.send({ embeds: [expUpEmbed] });
+    await message.channel.send({ embeds: [expUpEmbed] });
 
     if (message.guild !== null) {
-        updateRoles(bot, message.guild);
+        await updateRoles(bot, message.guild);
     }
 
     bot.bumpTracker.recordBump();

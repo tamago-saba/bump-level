@@ -11,9 +11,9 @@ export const execCommand = async (
 
     switch (interaction.commandName) {
         case "level":
-            sendLevel(bot.storage, interaction);
+            await sendLevel(bot.storage, interaction);
             break;
         case "top":
-            sendTop(bot.storage, interaction);
+            await sendTop(bot.storage, interaction);
     }
 };

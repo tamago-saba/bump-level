@@ -9,5 +9,5 @@ export async function sendTop(
     const top = (await storage.getTop()).slice(0, 10);
     const topEmbed = getTopEmbed(top, interaction.guild);
 
-    interaction.reply({ embeds: [topEmbed] });
+    await interaction.reply({ embeds: [topEmbed] });
 }

@@ -27,12 +27,13 @@ export class Bot {
             onReady(client);
         });
         this.client.on("messageCreate", async (message) => {
-            onMessageCreate(this, message);
+            await onMessageCreate(this, message);
         });
         this.client.on("interactionCreate", async (interaction) => {
-            execCommand(this, interaction);
+            await execCommand(this, interaction);
         });
+        this.client.on("error", console.error);
 
-        this.client.login(this.config.token);
+        this.client.login(this.config.token).catch(console.error);
     }
 }
